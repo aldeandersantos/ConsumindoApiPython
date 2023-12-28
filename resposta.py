@@ -23,5 +23,4 @@ def requisicao_api():
 
     except requests.exceptions.RequestException as e:
         print("Erro de requisição:", e)
-
 requisicao_api()
