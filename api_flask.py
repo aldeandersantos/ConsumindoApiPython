@@ -42,13 +42,16 @@ def obter_enderecos_por_id(id):
     for endereco in enderecos:
         if endereco.get('id') == id:
             return jsonify(endereco)
+    return jsonify({'mensagem': 'Endereço não encontrado'}), 404
 
 @app.route('/enderecos', methods=['POST'])
 def incluir_novo_endereco():
     global enderecos
     novo_endereco = request.get_json()
     enderecos.append(novo_endereco)
-    return jsonify(enderecos)
+    ultimo_indice = len(enderecos) - 1
+    return jsonify({'endereco': enderecos[ultimo_indice]})
+
 
 
 
@@ -61,6 +64,7 @@ def editar_endereco_por_id(id):
         if endereco.get('id') == id:
             enderecos[indice].update(endereco_alterado)
             return jsonify(enderecos[indice])
+    return jsonify({'mensagem': 'Endereço não encontrado'}), 404
 
 
 @app.route('/enderecos/<int:id>', methods=['DELETE'])
@@ -68,7 +72,8 @@ def excluir_endereco(id):
     for indice, endereco in enumerate(enderecos):
         if endereco.get('id') == id:
             del enderecos[indice]
+            return jsonify({'mensagem': 'Endereço deletado com sucesso!'})
 
-    return jsonify(enderecos)
+    return jsonify({'mensagem': 'Endereço não encontrado'}), 404
 
 app.run(port=5000,host='localhost', debug=True)
