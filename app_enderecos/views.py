@@ -15,7 +15,9 @@ class EnderecoAPIView(APIView):
         return Response(serializer.data)
 
     @handle_erros
-    def post(self, request, format=None):
+    def post(self, request, cep=None, format=None):
+        if cep is not None:
+            raise ValueError("Deixe cep na URI vazia.")
         serializer = EnderecoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
